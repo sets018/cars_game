@@ -1,61 +1,107 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/*variables*/
+// 0: Initial Screen
+// 1: Game Screen
+// 2: Game-over Screen
 package game;
-import processing.core.PApplet;
-/**
- *
- * @author lu23p
- */
+import processing.core.*;
+import gifAnimation.*;
 public class Juego extends PApplet{
-    int x =250,y=500,w=100,h=50;
-    boolean button=false;
-    
-    
-    @Override
+    int gamestart = 0;
+    Gif pre_gamescrbg;
+    car car;
     public void settings() {
-        size(600, 600);
+        size(1080, 1080);
     }
 
     @Override
     public void setup() {
+        car = new car(5,5,5,5,5);
         frameRate(10);
+        pre_gamescrbg = new Gif(this,"Gif portada.gif");
+        pre_gamescrbg.play();
     }
 
     @Override
-    public void draw() {                      
-        if (button==true){
-            background(152,190,100);
-        }else{
-            background(0);
+    public void draw() {
+        switch (gamestart) {
+            case 0:
+                initialscr();
+                break;
+            case 1:
+                pregamescr();
+                break;
+            case 2:
+                gamescr();
+                break;
+            case 3:
+                gameoverscr();
+                break;
+            default:
+                break;
         }
-        rect(x,y,w,h);
+    }  
+    
+    /*screens*/
+    void initialscr() {
+        image(pre_gamescrbg,0,0);
+    }
+    void pregamescr() {
+    // placeholder
+        background(486);
+    }
+    void gamescr() {
+    // codes of game screen 
+        background(86);
+        car.show();
+        
+        if(keyPressed){
+            if((key == 'w')||(key == 'W')){
+                car.go_forward();
+        }
         
     }
-
+    if(keyPressed){
+            if((key == 'a')||(key == 'A')){
+                car.go_left();
+        }
+        
+    }
+    if(keyPressed){
+            if((key == 'd')||(key == 'D')){
+                car.go_right();
+        }
+        
+    }
+    }
+    void gameoverscr(){
+    // codes for game over screen
+        background(8);
+    }
+      
     public void run() {
         String[] processingArgs = { this.getClass().getName() };
         PApplet.runSketch(processingArgs, this);
     }
     
+    @Override
     public void mousePressed(){
-        if((mouseX >x) && (mouseX <x+w) && (mouseY > y) && (mouseY < y+h)){
-            if (button==true){
-            button = false;
-        }else{
-            button = true;
+        if (gamestart == 0){
+            nuevoJuego();
         }
+        else {
+            cargarJuego();
         }
     }
-     
+    public void nuevoJuego(){
+        gamestart = 1;
+    }
     
-    public void nuevoJuego() {
-        
+    public void cargarJuego(){
+        gamestart = 2;
     }
-
     public void finJuego() {
         
     }
 }
+
+    
